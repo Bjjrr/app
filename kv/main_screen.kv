@@ -1,0 +1,150 @@
+#:import dp kivy.metrics.dp
+
+<RoundedButton>:
+    background_color: 0, 0, 0, 0
+    background_normal: ""
+    background_down: ""
+    color: 1, 1, 1, 1
+    bold: True
+    font_size: "16sp"
+    canvas.before:
+        Color:
+            rgba: (self.bg_color if not self.disabled else (0.82, 0.84, 0.87, 1))
+        RoundedRectangle:
+            pos: self.pos
+            size: self.size
+            radius: [16]
+
+
+<ImageCard>:
+    orientation: "horizontal"
+    size_hint_y: None
+    height: dp(84)
+    padding: dp(10)
+    spacing: dp(12)
+    canvas.before:
+        Color:
+            rgba: 0, 0, 0, 0.06
+        RoundedRectangle:
+            pos: self.x, self.y - dp(1)
+            size: self.size
+            radius: [14]
+        Color:
+            rgba: 1, 1, 1, 1
+        RoundedRectangle:
+            pos: self.x, self.y + dp(1)
+            size: self.size
+            radius: [14]
+
+    Image:
+        source: root.image_path
+        size_hint_x: None
+        width: dp(64)
+        allow_stretch: True
+        keep_ratio: True
+
+    BoxLayout:
+        orientation: "vertical"
+        spacing: dp(4)
+
+        Label:
+            text: root.image_name
+            color: 0.12, 0.14, 0.18, 1
+            font_size: "14sp"
+            shorten: True
+            shorten_from: "right"
+            halign: "left"
+            valign: "middle"
+            text_size: self.size
+            size_hint_y: 0.6
+
+        BoxLayout:
+            size_hint_y: 0.4
+            spacing: dp(6)
+            Button:
+                id: up_btn
+                text: "Subir"
+                font_size: "11sp"
+                background_color: 0, 0, 0, 0
+                background_normal: ""
+                color: 0.13, 0.42, 0.87, 1
+            Button:
+                id: down_btn
+                text: "Descer"
+                font_size: "11sp"
+                background_color: 0, 0, 0, 0
+                background_normal: ""
+                color: 0.13, 0.42, 0.87, 1
+
+    Button:
+        text: "Remover"
+        font_size: "12sp"
+        size_hint_x: None
+        width: dp(80)
+        background_color: 0, 0, 0, 0
+        background_normal: ""
+        color: 0.87, 0.22, 0.22, 1
+        on_release: root.remove_pressed()
+
+
+<MainScreen>:
+    orientation: "vertical"
+    padding: dp(18)
+    spacing: dp(14)
+
+    Label:
+        text: "Imagem → PDF"
+        font_size: "26sp"
+        bold: True
+        color: 0.12, 0.14, 0.18, 1
+        size_hint_y: None
+        height: dp(44)
+        halign: "left"
+        valign: "middle"
+        text_size: self.size
+
+    RoundedButton:
+        text: "+  Adicionar imagens"
+        bg_color: 0.13, 0.42, 0.87, 1
+        size_hint_y: None
+        height: dp(54)
+        on_release: root.add_images()
+
+    Label:
+        id: count_label
+        text: "0 imagem(ns) selecionada(s)"
+        color: 0.45, 0.48, 0.53, 1
+        font_size: "13sp"
+        size_hint_y: None
+        height: dp(22)
+        halign: "left"
+        valign: "middle"
+        text_size: self.size
+
+    ScrollView:
+        do_scroll_x: False
+        BoxLayout:
+            id: image_list
+            orientation: "vertical"
+            spacing: dp(8)
+            size_hint_y: None
+            height: self.minimum_height
+
+    BoxLayout:
+        size_hint_y: None
+        height: dp(54)
+        spacing: dp(12)
+
+        RoundedButton:
+            id: clear_btn
+            text: "Limpar tudo"
+            bg_color: 0.87, 0.22, 0.22, 1
+            disabled: True
+            on_release: root.clear_all()
+
+        RoundedButton:
+            id: generate_btn
+            text: "Gerar PDF"
+            bg_color: 0.18, 0.72, 0.46, 1
+            disabled: True
+            on_release: root.generate_pdf()
