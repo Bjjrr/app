@@ -1,0 +1,8 @@
+kivy==2.3.0
+pillow
+plyer
+pyjnius
+androidstorage4kivy
+kivmob
+buildozer
+cython==0.29.36
